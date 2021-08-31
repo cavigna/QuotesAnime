@@ -83,9 +83,10 @@ fun RandomQuoteShow(
 @Composable
 fun conversorTypo(frase:String): TextStyle {
     return when(frase.length){
-        in 1..30 ->MaterialTheme.typography.h2
-        in 30..50 ->MaterialTheme.typography.h3
-        in 50..100 ->MaterialTheme.typography.h4
+        in 1..50 ->MaterialTheme.typography.h1
+        in 50..75 ->MaterialTheme.typography.h2
+        in 75..100 ->MaterialTheme.typography.h4
+        in 100..125 ->MaterialTheme.typography.h5
 
 
 

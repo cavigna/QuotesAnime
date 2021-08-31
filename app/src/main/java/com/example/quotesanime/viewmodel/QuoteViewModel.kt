@@ -14,6 +14,9 @@ import javax.inject.Inject
 @HiltViewModel
 class QuoteViewModel @Inject constructor( private val repository: QuoteRepository):ViewModel() {
     var randomQuote :MutableState<AnimeQuote> = mutableStateOf(AnimeQuote())
+    var listRandomQuote : MutableState<List<AnimeQuote>> =  mutableStateOf(listOf())
+    var listQuotesByTitle : MutableState<List<AnimeQuote>> =  mutableStateOf(listOf())
+    var quotesByCharacter : MutableState<List<AnimeQuote>> =  mutableStateOf(listOf())
 
     init{
         getRandomQuote()
@@ -25,4 +28,25 @@ class QuoteViewModel @Inject constructor( private val repository: QuoteRepositor
             randomQuote.value = repository.randomQuote()
         }
     }
+
+    fun getListRandomQuote(){
+        viewModelScope.launch(IO) {
+            listRandomQuote.value = repository.listRandomQuotes()
+        }
+    }
+
+    fun getlistQuotesByTitle(title:String){
+        viewModelScope.launch(IO) {
+            listQuotesByTitle.value = repository.listQuotesByTitle(title)
+        }
+    }
+
+    fun getquotesByCharacter(name:String){
+        viewModelScope.launch(IO) {
+            quotesByCharacter.value = repository.quotesByCharcacter(name)
+        }
+    }
+
+
+
 }

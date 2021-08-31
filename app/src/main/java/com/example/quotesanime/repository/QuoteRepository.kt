@@ -12,4 +12,12 @@ class QuoteRepository @Inject constructor(
     suspend fun randomQuote():AnimeQuote{
         return api.randomQuote()
     }
+    suspend fun listRandomQuotes() = api.listRandomQuotes()
+
+    suspend fun listQuotesByTitle(title:String) = api.listQuotesByTitle(title)
+
+    suspend fun quotesByCharcacter(name:String) = api.quotesByCharacter(name)
+
+
+
 }
