@@ -8,6 +8,9 @@ import com.example.quotesanime.models.AnimeQuote
 import com.example.quotesanime.repository.QuoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,8 +21,14 @@ class QuoteViewModel @Inject constructor( private val repository: QuoteRepositor
     var listQuotesByTitle : MutableState<List<AnimeQuote>> =  mutableStateOf(listOf())
     var quotesByCharacter : MutableState<List<AnimeQuote>> =  mutableStateOf(listOf())
 
+    private val _isRefreshing = MutableStateFlow(false)
+
+    val isRefreshing: StateFlow<Boolean>
+        get() = _isRefreshing.asStateFlow()
+
     init{
         getRandomQuote()
+        getListRandomQuote()
     }
 
 

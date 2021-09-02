@@ -9,8 +9,12 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.quotesanime.composables.RandomQuoteShow
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.quotesanime.composables.ListadoFrases
 import com.example.quotesanime.models.AnimeQuote
+import com.example.quotesanime.ui.theme.GreyAliceBLue
 import com.example.quotesanime.ui.theme.QuotesAnimeTheme
 import com.example.quotesanime.viewmodel.QuoteViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,13 +26,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             QuotesAnimeTheme {
-
+                val navController = rememberNavController()
                 val randomQuote = viewModel.randomQuote
                 val animeQuote = randomQuote.component1()
+                val listAnimeQuote = viewModel.listRandomQuote.component1()
                 // A surface container using the 'background' color from the theme
+                //Surface(color = MaterialTheme.colors.background)
                 Surface(color = MaterialTheme.colors.background) {
-                RandomQuoteShow(animeQuote)
-                //Greeting("Android")
+                    NavHost(navController = navController, startDestination = "main_screen"){
+                        composable("main_screen"){ListadoFrases(listAnimeQuote)}
+                        //composable("list_by_name"){ ListadoFrases()}
+                    }
+
+
+
+
+
+
                 }
             }
         }
