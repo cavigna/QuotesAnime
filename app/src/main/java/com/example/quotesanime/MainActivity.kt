@@ -22,20 +22,26 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: QuoteViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             QuotesAnimeTheme {
                 val navController = rememberNavController()
+
                 val randomQuote = viewModel.randomQuote
+
                 val animeQuote = randomQuote.component1()
+
                 val listAnimeQuote = viewModel.listRandomQuote.component1()
+
                 // A surface container using the 'background' color from the theme
                 //Surface(color = MaterialTheme.colors.background)
                 Surface(color = MaterialTheme.colors.background) {
                     NavHost(navController = navController, startDestination = "main_screen"){
-                        composable("main_screen"){ListadoFrases(listAnimeQuote)}
-                        //composable("list_by_name"){ ListadoFrases()}
+                        composable("main_screen"){ListadoFrases(listAnimeQuote, navController = navController)}
+                        composable("list_by_name"){ ListadoFrases(viewModel.listQuotesByTitle.component1(),
+                            navController = navController)}
                     }
 
 

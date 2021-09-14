@@ -1,5 +1,6 @@
 package com.example.quotesanime.composables
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -30,7 +31,7 @@ fun PreviewListadoFrases(
     QuotesAnimeTheme {
         //TarjetaQuote(irohQuote)
         //ListadoFrases(listQuotesPrueba, "Avatar: The Last Airbender")
-        ListadoFrases(listQuotesPrueba, "Avatar: The Last Airbender")
+        //ListadoFrases(listQuotesPrueba, "Avatar: The Last Airbender")
     }
 
 }
@@ -39,29 +40,34 @@ fun PreviewListadoFrases(
 fun ListadoFrases(
     listadoFrase: List<AnimeQuote>,
     tituloONombre: String? = null,
-    //viewModel: QuoteViewModel= hiltViewModel(),
-    viewModel: QuoteViewModel? = null,
+    viewModel: QuoteViewModel= hiltViewModel(),
+    //viewModel: QuoteViewModel? = null,
+    navController: NavController,
     modifier: Modifier = Modifier,
 ) {
     Surface(color = GreyLightSilverHand) {
-        if (tituloONombre != null) {
-            Column() {
-                HeaderAnime(tituloONombre)
-                LazyColumn(verticalArrangement = Arrangement.spacedBy(20.dp)) {
-                    items(listadoFrase.size) {
-                        val currentQuote = listadoFrase[it]
-                        TarjetaQuote(currentQuote)
-                    }
-                }
-            }
-        } else {
+if (listadoFrase.isEmpty()){
+    CircularProgressIndicator()
+}else{
+    if (tituloONombre != null) {
+        Column() {
+            HeaderAnime(tituloONombre)
             LazyColumn(verticalArrangement = Arrangement.spacedBy(20.dp)) {
                 items(listadoFrase.size) {
                     val currentQuote = listadoFrase[it]
-                    TarjetaQuote(currentQuote)
+                    TarjetaQuote(currentQuote,viewModel, navController = navController)
                 }
             }
         }
+    } else {
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(20.dp)) {
+            items(listadoFrase.size) {
+                val currentQuote = listadoFrase[it]
+                TarjetaQuote(currentQuote,viewModel, navController = navController)
+            }
+        }
+    }
+}
 
     }
 
@@ -70,7 +76,9 @@ fun ListadoFrases(
 @Composable
 fun TarjetaQuote(
     animeQuote: AnimeQuote,
-    viewModel: QuoteViewModel? = null,
+    viewModel: QuoteViewModel,
+    //viewModel: QuoteViewModel? = null,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -102,7 +110,7 @@ fun TarjetaQuote(
                         color = Color.LightGray, style = MaterialTheme.typography.h4
                     )
                 }
-                BotonAnimeTitle(animeQuote, viewModel)
+                BotonAnimeTitle(animeQuote, viewModel, navController)
                 FilaAnimeTitle(animeQuote)
             }
 
@@ -163,8 +171,10 @@ fun HeaderAnime(
 @Composable
 fun BotonAnimeTitle(
     animeQuote: AnimeQuote,
-    viewModel: QuoteViewModel? = null,
-    navController: NavController? = null,
+    viewModel: QuoteViewModel,
+//    viewModel: QuoteViewModel? = null,
+    navController: NavController,
+    //navController: NavController? = null,
     modifier: Modifier = Modifier
 
 ) {
@@ -177,10 +187,10 @@ fun BotonAnimeTitle(
             colors = ButtonDefaults.buttonColors(backgroundColor = RedCrisom),
             shape = RoundedCornerShape(5.dp),
             onClick = {
-                viewModel!!.getlistQuotesByTitle(animeQuote.anime)
-                val listAnimeQuote = viewModel.listRandomQuote.component1()
+                viewModel.getlistQuotesByTitle(animeQuote.anime)
                 navController!!.navigate("list_by_name")
-//                ListadoFrases(listAnimeQuote, animeQuote.anime, viewModel)
+                Log.v("titulo", viewModel.listQuotesByTitle.toString())
+                //ListadoFrases(listAnimeQuote, animeQuote.anime, viewModel, navController)
             }
         ) {
             Text(

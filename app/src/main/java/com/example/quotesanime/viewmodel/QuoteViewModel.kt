@@ -16,19 +16,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuoteViewModel @Inject constructor( private val repository: QuoteRepository):ViewModel() {
+
     var randomQuote :MutableState<AnimeQuote> = mutableStateOf(AnimeQuote())
     var listRandomQuote : MutableState<List<AnimeQuote>> =  mutableStateOf(listOf())
     var listQuotesByTitle : MutableState<List<AnimeQuote>> =  mutableStateOf(listOf())
     var quotesByCharacter : MutableState<List<AnimeQuote>> =  mutableStateOf(listOf())
 
+    // MutableLiveData
     private val _isRefreshing = MutableStateFlow(false)
 
     val isRefreshing: StateFlow<Boolean>
         get() = _isRefreshing.asStateFlow()
 
     init{
-        getRandomQuote()
+        //getRandomQuote()
         getListRandomQuote()
+        getlistQuotesByTitle("naruto")
     }
 
 
@@ -59,3 +62,4 @@ class QuoteViewModel @Inject constructor( private val repository: QuoteRepositor
 
 
 }
+

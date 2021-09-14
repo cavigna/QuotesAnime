@@ -12,9 +12,9 @@ interface QuotesAnimeApi {
     @GET("quotes")
     suspend fun listRandomQuotes(): List<AnimeQuote>
 
-    @GET("quotes/anime")
-    suspend fun listQuotesByTitle(@Query("title") title:String): List<AnimeQuote>
+    @GET("quotes/anime") // 'https://animechan.vercel.app/api/quotes/anime?title=naruto'
+    suspend fun listQuotesByTitle(@Query("title") title: String): List<AnimeQuote>
 
     @GET("quotes/character")
-    suspend fun quotesByCharacter(@Query("name")name: String):List<AnimeQuote>
+    suspend fun quotesByCharacter(@Query("name") name: String): List<AnimeQuote>
 }

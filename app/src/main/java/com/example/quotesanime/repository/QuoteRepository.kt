@@ -9,15 +9,21 @@ import javax.inject.Inject
 class QuoteRepository @Inject constructor(
     private val api : QuotesAnimeApi
 ){
-    suspend fun randomQuote():AnimeQuote{
-        return api.randomQuote()
-    }
+    suspend fun randomQuote():AnimeQuote{   return api.randomQuote() }
+
     suspend fun listRandomQuotes() = api.listRandomQuotes()
 
     suspend fun listQuotesByTitle(title:String) = api.listQuotesByTitle(title)
 
     suspend fun quotesByCharcacter(name:String) = api.quotesByCharacter(name)
 
-
-
 }
+
+
+
+/* ACTIVITY
+
+
+val repositorio = QUoteRepository()
+
+ */
